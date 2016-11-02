@@ -1,19 +1,17 @@
-import os
 import pickle
 
 
-with open('hives','rb') as fichier:
+with open('hives', 'rb') as fichier:
     depickler = pickle.Unpickler(fichier)
     hives = depickler.load()
 
 
-with open('hivesdata','rb') as fichier:
+with open('hivesdata', 'rb') as fichier:
     depickler = pickle.Unpickler(fichier)
     hivesdata = depickler.load()
 
 hives = "A1,loc1;A2,loc2"
-hivesdata = [["A1", "loc1", "none", [ ]], [ "A2", "loc2", "A1", [ ] ] ]
-
+hivesdata = [["A1", "loc1", "none", []], ["A2", "loc2", "A1", []]]
 
 
 hivesList = hives.split(";")
@@ -25,22 +23,22 @@ entry = 'c'
 
 while entry != 'q':
 
-    entry = input("\n==========\nWhat do you want to do ?\nQuit (q), get the list of the hives (h), add a hive (a), remove a hive (r), modify a hive (m), get infos on a hive (i) : ").lower()
+    entry = input("\n==========\nWhat do you want to do ?\nQuit (q), list the hives (h), add (a), remove (r), modify (m), or get infos on a hive (i) : ").lower()
 
     if entry == 'h':
         i = 0
         for elt in hivesList:
             hive = elt.split(",")
-            print(str(i) + ". Hive "+ hive[0] + " is at " + hive[1])
-            i+=1
+            print(str(i) + ". Hive " + hive[0] + " is at " + hive[1])
+            i += 1
 
     if entry == 'i':
-        infos = int(input("What is the number of the hive you want to get infos about ? "))
+        infos = int(input("What is the number of the hive you want to get infos ? "))
         print(infos)
         hiveinfos = hivesdata[infos]
-        print("The hive " + hiveinfos[0] + " is in " + hiveinfos[1]+".")
+        print("The hive " + hiveinfos[0] + " is in " + hiveinfos[1] + ".")
         print("Its parent is " + hiveinfos[2] + ".")
-        #print("Remarks on this hive :\n" + hiveinfos[3])
+        # print("Remarks on this hive :\n" + hiveinfos[3])
 
     if entry == 'a':
         newHiveName = str(input("What is the name of the new hive ? "))
@@ -48,9 +46,9 @@ while entry != 'q':
         newHiveHered = str(input("What is the parent of the new hive ? "))
         hivesList = hivesList + [newHiveName + "," + newHiveLoc]
         print(hivesdata)
-        hiveinfos = [newHiveName, newHiveLoc, newHiveHered,[]]
+        hiveinfos = [newHiveName, newHiveLoc, newHiveHered, []]
         print(hiveinfos)
-        hivesdata = hivesdata.append(hiveinfos )
+        hivesdata = hivesdata.append(hiveinfos)
         print(hivesdata)
         hives = hives + ";" + newHiveName + "," + newHiveLoc
 
@@ -82,15 +80,14 @@ for elt in hivesList:
     else:
         hives = hives + ";" + str(elt)
 
-hivesFile = open('hives','w')
+hivesFile = open('hives', 'w')
 hivesFile.write(hives)
 hivesFile.close()
 
-with open('hives','wb') as fichier:
+with open('hives', 'wb') as fichier:
     mon_pickler = pickle.Pickler(fichier)
     mon_pickler.dump(hives)
 
-with open('hivesdata','wb') as fichier:
+with open('hivesdata', 'wb') as fichier:
     mon_pickler = pickle.Pickler(fichier)
     mon_pickler.dump(hivesdata)
-
